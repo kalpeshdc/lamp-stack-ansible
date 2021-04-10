@@ -1,0 +1,27 @@
+# roles/webserver/tasks/main.yml
+---
+- name: Upgrade all packages
+  yum:
+    name: "*"
+    state: latest
+
+- name: install php and apache
+  yum:
+    name:
+      - httpd
+      - httpd-devel
+      - php
+      - php-devel
+    state: present
+
+- name: start services
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: deploy index.html
+  copy:
+    src: index.html
+    dest: /var/www/html/index.html
+    mode: 0664
